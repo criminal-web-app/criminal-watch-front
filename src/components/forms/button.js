@@ -1,17 +1,22 @@
 import React from 'react';
-
-export default class Button extends React.Component{
+import {Button} from 'reactstrap';
+export default class FormButton extends React.Component{
     onClick(){
         this.props.clickSubmit();
     }
 
     render(){
         return (
-            <input
-                type='submit'
+            
+            <Button
+                className={this.props.class_name}
+                color = {this.props.buttonColor}
                 name={this.props.buttonName}
                 onClick={this.props.clickSubmit}
-            />
+                value={this.props.buttonValue}
+            >
+            {this.props.buttonName}
+            </Button>
         )
     }
 }

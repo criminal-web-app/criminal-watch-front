@@ -1,8 +1,8 @@
 import React from 'react';
-import Input from '../forms/inputField';
-import Button from '../forms/button';
+import InputForm from '../forms/inputField';
+import FormButton from '../forms/button';
 import axios from 'axios';
-
+import {Form,FormGroup} from 'reactstrap';
 
 
 
@@ -38,22 +38,24 @@ class Login extends React.Component{
       loginSubmit(event){
         event.preventDefault();
         let {username,password,message} = this.state;
-        let base_url = `http://127.0.0.1:8084/v1/users/login`;
+        let base_url = `https://warm-ravine-42804.herokuapp.com/v1/users/login`;
 
         if(username && password){
+            
             console.log(username,password);
             axios.post(base_url,{
                 username : username,
                 password : password
             })
             .then(data=>{
-
+                console.log(data);
                 this.setState({
                     message : data.data.message
                 });
                 console.log(message)
             })
             .catch(err =>{
+                console.log(base_url);
                 this.setState({
                     message : err.response.data.message
                 });
@@ -71,26 +73,35 @@ class Login extends React.Component{
     render(){
         return ( 
         <div>
-            <form onSubmit={this.loginSubmit}>
-                {/* USERNAME */}
-                <Input
-                    inputType={'text'}
-                    inputName={'username'}
-                    inputValue={this.state.username}
-                    placeHolder={'Username'}
-                    inputChange={this.updateUsername}
-                />
-                {/* PASSWORD */}
-                <Input
-                    inputType={'password'}
-                    inputName={'password'}
-                    inputValue={this.state.password}                    
-                    placeHolder={'password'}
-                    inputChange={this.updatePassword}
-                />
-                {/* SUBMIT */}
-                <Button buttonName='Submit' />              
-            </form>
+            <Form onSubmit={this.loginSubmit}>
+                <FormGroup>
+                    {/* USERNAME */}
+                    <InputForm
+                        inputType={'text'}
+                        inputName={'username'}
+                        inputValue={this.state.username}
+                        placeHolder={'Username'}
+                        inputChange={this.updateUsername}
+                    />
+                </FormGroup>
+                
+                <FormGroup>
+                    {/* PASSWORD */}
+                    <InputForm
+                        inputType={'password'}
+                        inputName={'password'}
+                        inputValue={this.state.password}                    
+                        placeHolder={'password'}
+                        inputChange={this.updatePassword}
+                    />
+
+                </FormGroup>
+                <h1>{this.state.message}</h1>
+                <FormGroup>
+                    {/* SUBMIT */}
+                    <FormButton buttonName='Login' buttonValue ='Login' buttonColor='primary'/>
+                </FormGroup>  
+            </Form>
         </div>
         )
     } 
